@@ -1,3 +1,8 @@
+<?php
+$rootPath = $_SERVER['DOCUMENT_ROOT'];
+include $rootPath . "/sistem-persuratan-puskod/config/connection-with-auth.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +12,6 @@
     <title>Homepage</title>
 
     <?php
-    $rootPath = $_SERVER['DOCUMENT_ROOT'];
     include $rootPath . "/sistem-persuratan-puskod/components/style.html";
     ?>
 </head>

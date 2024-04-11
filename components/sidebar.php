@@ -1,5 +1,6 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
+$namaLengkap = $_SESSION['namaLengkap'];
 ?>
 
 <!-- Main Sidebar Container -->
@@ -18,7 +19,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <img src="/sistem-persuratan-puskod/adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block"><?php echo $namaLengkap?></a>
             </div>
         </div>
 

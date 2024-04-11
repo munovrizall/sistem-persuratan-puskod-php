@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <!-- /.card -->
     </div>
-    
+
     <?php
     include $rootPath . "/sistem-persuratan-puskod/components/script.html"
     ?>
@@ -162,7 +162,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             confirmButtonText: 'OK (enter)'
                         });
                     } else {
-                        window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage.php";
+                        localStorage.setItem("username", inputEmail);
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/sistem-persuratan-puskod/config/process-username.php",
+                            data: {
+                                username: inputEmail
+                            },
+                            success: function(response) {
+                                // Parse the response as JSON
+                                var responseData = JSON.parse(response);
+
+                                window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage.php";
+                            },
+                            error: function(error) {
+                                console.error("Error sending username to server: " + error);
+                            }
+                        });
                     }
                 }
             } else {
