@@ -50,7 +50,8 @@ $namaLengkap = $_SESSION['namaLengkap'];
                     <a href="/sistem-persuratan-puskod/tata-usaha/surat-masuk.php" class="nav-link 
                     <?php
                     echo (
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-masuk.php')
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-masuk.php') ||
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/detail-surat.php')
                     )
                         ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-inbox"></i>

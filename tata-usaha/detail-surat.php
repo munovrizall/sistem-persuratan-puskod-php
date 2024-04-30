@@ -90,7 +90,7 @@ if (isset($_GET['id'])) {
                                 <div class="card-body p-0">
                                     <div class="mailbox-read-info">
                                         <h5><?php echo $row["subjek_surat"] ?></h5>
-                                        <h6>From: <?php echo $row["nama_pengirim"] ?>
+                                        <h6>Dari: <?php echo $row["nama_pengirim"] ?>
                                             <span class="mailbox-read-time float-right"><?php echo $tanggal ?></span>
                                         </h6>
                                     </div>
