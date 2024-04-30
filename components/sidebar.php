@@ -33,20 +33,21 @@ $namaLengkap = $_SESSION['namaLengkap'];
                         <i class="nav-icon fas fa-plus"></i> Buat Surat
                     </button>
                 </li>
-                <a href="/sistem-persuratan-puskod/tata-usaha/homepage.php" class="nav-link 
+                <li class="nav-item">
+                    <a href="/sistem-persuratan-puskod/tata-usaha/homepage.php" class="nav-link 
                     <?php
                     echo (
                         strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/homepage.php')
                     )
                         ? 'active' : ''; ?>">
-                    <i class="nav-icon fas fa-home"></i>
-                    <p>
-                        Homepage
-                    </p>
-                </a>
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Homepage
+                        </p>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/sistem-persuratan-puskod/tata-usaha/homepage.php" class="nav-link 
+                    <a href="/sistem-persuratan-puskod/tata-usaha/surat-masuk.php" class="nav-link 
                     <?php
                     echo (
                         strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-masuk.php')
