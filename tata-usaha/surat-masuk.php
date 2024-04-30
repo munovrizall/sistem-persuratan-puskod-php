@@ -89,7 +89,7 @@ if ($stmt = $conn->prepare($query)) {
                                             if ($result->num_rows > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     $tanggal = date('H:i d-m-Y', strtotime($row["tanggal_dibuat"]));
-                                                    $style = ($row["status_baca"] == 'BELUM') ? 'font-weight:bold;' : ''; 
+                                                    $style = ($row["status_baca"] == 'BELUM') ? 'font-weight:bold;' : '';
                                             ?>
                                                     <tr onclick="window.location='detail-surat.php?id=<?php echo $row["id_surat"]; ?>'" style="<?php echo $style; ?>">
                                                         <td><?php echo $row["nama_pengirim"]; ?></td>
@@ -131,24 +131,9 @@ if ($stmt = $conn->prepare($query)) {
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-
-    <!-- jQuery -->
-    <script src="../adminlte/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="../adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../adminlte/dist/js/adminlte.min.js"></script>
-    <!-- Datatables -->
-    <script src="https://cdn.datatables.net/v/bs4/dt-1.13.8/b-2.4.2/b-colvis-2.4.2/b-print-2.4.2/fh-3.4.0/r-2.5.0/rg-1.4.1/sb-1.6.0/sp-2.2.0/datatables.min.js"></script>
-    <script src="https:////code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap4.min.js"></script>
+    <?php
+    include $rootPath . "/sistem-persuratan-puskod/components/script.html";
+    ?>
     <!-- Page specific script -->
     <script>
         $(document).ready(function() {

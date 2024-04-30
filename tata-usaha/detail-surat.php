@@ -130,12 +130,9 @@ if (isset($_GET['id'])) {
     </div>
     <!-- ./wrapper -->
 
-    <!-- jQuery -->
-    <script src="../adminlte/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="../adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../adminlte/dist/js/adminlte.min.js"></script>
+    <?php
+    include $rootPath . "/sistem-persuratan-puskod/components/script.html";
+    ?>
 </body>
 
 </html>
