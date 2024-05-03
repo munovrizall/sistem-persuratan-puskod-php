@@ -74,10 +74,12 @@ $namaLengkap = $_SESSION['namaLengkap'];
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/sistem-persuratan-puskod/tata-usaha/homepage.php" class="nav-link 
+                    <a href="/sistem-persuratan-puskod/tata-usaha/pengguna/kelola.php" class="nav-link 
                     <?php
                     echo (
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/kelola-pengguna.php')
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/pengguna/kelola.php') ||
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/pengguna/tambah.php') ||
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/pengguna/edit.php')
                     )
                         ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-user"></i>

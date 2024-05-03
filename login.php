@@ -18,7 +18,7 @@ while ($row = $result->fetch_assoc()) {
         'email' => $row['email'],
         'password' => $row['password'],
         'jabatan' => $row['jabatan'],
-        'idDivisi' => $row['id_divisi'],
+        'idDivisi' => $row['id_bidang'],
     );
 }
 
