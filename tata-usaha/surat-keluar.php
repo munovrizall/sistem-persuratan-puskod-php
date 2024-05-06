@@ -9,7 +9,7 @@ $query = "SELECT surat.*, pengguna.nama_pengguna AS nama_pengirim, penerima_sura
 FROM surat
 INNER JOIN pengguna ON surat.id_pengirim = pengguna.id_pengguna
 INNER JOIN penerima_surat ON surat.id_surat = penerima_surat.id_surat
-WHERE penerima_surat.id_penerima = ?
+WHERE penerima_surat.id_pengirim = ?
 ORDER BY surat.tanggal_dibuat DESC";
 
 if ($stmt = $conn->prepare($query)) {
