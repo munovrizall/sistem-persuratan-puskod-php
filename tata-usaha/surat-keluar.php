@@ -5,10 +5,10 @@ include $rootPath . "/sistem-persuratan-puskod/config/connection-with-auth.php";
 $namaLengkap = $_SESSION['namaLengkap'];
 $idPengguna = $_SESSION['id'];
 
-$query = "SELECT surat.*, pengguna.nama_pengguna AS nama_pengirim, penerima_surat.*
+$query = "SELECT surat.*, pengguna.nama_pengguna AS nama_penerima, penerima_surat.*
 FROM surat
-INNER JOIN pengguna ON surat.id_pengirim = pengguna.id_pengguna
 INNER JOIN penerima_surat ON surat.id_surat = penerima_surat.id_surat
+INNER JOIN pengguna ON penerima_surat.id_penerima = pengguna.id_pengguna
 WHERE penerima_surat.id_pengirim = ?
 ORDER BY surat.tanggal_dibuat DESC";
 
@@ -81,7 +81,7 @@ if ($stmt = $conn->prepare($query)) {
                                     <table id="tabelSurat" class="table table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Nama Pengirim</th>
+                                                <th>Nama Penerima</th>
                                                 <th>Subjek Surat</th>
                                                 <th>Tanggal Diterima</th>
                                             </tr>
@@ -94,7 +94,7 @@ if ($stmt = $conn->prepare($query)) {
                                                     $style = ($row["status_baca"] == 'BELUM') ? 'font-weight:bold;' : '';
                                             ?>
                                                     <tr onclick="window.location='detail-surat.php?id=<?php echo $row["id_surat"]; ?>'" style="<?php echo $style; ?>">
-                                                        <td><?php echo $row["nama_pengirim"]; ?></td>
+                                                        <td><?php echo $row["nama_penerima"]; ?></td>
                                                         <td><?php echo $row["subjek_surat"]; ?></td>
                                                         <td><?php echo $tanggal; ?></td>
                                                     </tr>
