@@ -1,6 +1,13 @@
 <?php
 $rootPath = $_SERVER['DOCUMENT_ROOT'];
 include $rootPath . "/sistem-persuratan-puskod/config/connection-with-auth.php";
+
+$queryPengguna = "SELECT pengguna.*, bidang.*
+FROM pengguna
+INNER JOIN bidang ON pengguna.id_bidang = bidang.id_bidang
+ORDER BY bidang.id_bidang ASC";
+$resultPengguna = $conn->query($queryPengguna);
+
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +22,11 @@ include $rootPath . "/sistem-persuratan-puskod/config/connection-with-auth.php";
     include $rootPath . "/sistem-persuratan-puskod/components/style.html";
     ?>
 
+    <style>
+        .select2-container--bootstrap4 .select2-selection {
+            padding-left: 8px;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -57,13 +69,19 @@ include $rootPath . "/sistem-persuratan-puskod/config/connection-with-auth.php";
                                 <!-- /.card-header -->
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Kepada:">
+                                        <select class="select2" multiple="multiple" data-placeholder="Kepada: ">
+                                            <?php
+                                            while ($rowPengguna = $resultPengguna->fetch_assoc()) {
+                                                echo '<option value="' . $rowPengguna['id_bidang'] . '">' . $rowPengguna['nama_bidang'] . ' - ' . $rowPengguna['nama_pengguna'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <input class="form-control" placeholder="Nomor surat:">
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Subjek:">
+                                        <input class="form-control" placeholder="Subjek surat:">
                                     </div>
                                     <div class="form-group">
                                         <textarea id="isiSurat" class="form-control" style="min-height: 800px">
@@ -71,11 +89,12 @@ include $rootPath . "/sistem-persuratan-puskod/config/connection-with-auth.php";
                     </textarea>
                                     </div>
                                     <div class="form-group">
-                                        <div class="btn btn-default btn-file">
-                                            <i class="fas fa-paperclip" style="margin-right:8px"></i> Lampiran
-                                            <input type="file" name="attachment">
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="fileSurat" name="fileSurat">
+                                                <label class="custom-file-label" for="fileSurat">Pilih File Lampiran</label>
+                                            </div>
                                         </div>
-                                        <p class="help-block">Maks. 32MB</p>
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -111,10 +130,22 @@ include $rootPath . "/sistem-persuratan-puskod/config/connection-with-auth.php";
     <?php
     include $rootPath . "/sistem-persuratan-puskod/components/script.html";
     ?>
+    <!-- Select2  -->
+    <script src="/sistem-persuratan-puskod/adminlte/plugins/select2/js/select2.full.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="/sistem-persuratan-puskod/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Page specific script -->
     <script>
+        $(document).ready(function() {
+            $('#fileSurat').on('change', handleFileChange);
+        });
+
+        function handleFileChange() {
+            // Menampilkan nama file yang dipilih di label custom-file-label
+            var fileName = $('#fileSurat')[0].files[0].name;
+            $('.custom-file-label').html(fileName);
+        }
+
         $(function() {
             //Add text editor
             $('#isiSurat').summernote({
