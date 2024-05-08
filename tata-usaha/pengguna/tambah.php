@@ -89,19 +89,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <label for="pilihBidang">Pilih Bidang <span style="color: red;">*</span></label>
                                         <select class="form-control select2" id="pilihBidang" name="pilihBidang">
                                             <option value="">--- Pilih Bidang ---</option>
-                                            <option value="1">Tata Usaha</option>
-                                            <option value="2">Perencanaan Administrasi Kodifikasi</option>
-                                            <option value="3">Tata Kelola</option>
-                                            <option value="4">Pengembangan Kodifikasi</option>
-                                            <option value="5">Sistem Informasi Kodifikasi</option>
-                                            <option value="6">Operasional Kodifikasi</option>
-                                            <option value="7">Nomenlaktur dan Klasifikasi</option>
-                                            <option value="8">Identifikasi dan Kodifikasi</option>
-                                            <option value="9">Validasi Data Kodifikasi</option>
-                                            <option value="10">Dukungan Teknis Kodifikasi</option>
-                                            <option value="11">Kerjasama dan Pelatihan Kodifikasi</option>
-                                            <option value="12">Publikasi Katalog Materiil</option>
-                                            <option value="13">Fungsional Kataloger</option>
+                                            <option value="1">Kepala Pusat</option>
+                                            <option value="2">Tata Usaha</option>
+                                            <option value="3">Perencanaan Administrasi Kodifikasi</option>
+                                            <option value="4">Tata Kelola</option>
+                                            <option value="5">Pengembangan Kodifikasi</option>
+                                            <option value="6">Sistem Informasi Kodifikasi</option>
+                                            <option value="7">Operasional Kodifikasi</option>
+                                            <option value="8">Nomenlaktur dan Klasifikasi</option>
+                                            <option value="9">Identifikasi dan Kodifikasi</option>
+                                            <option value="10">Validasi Data Kodifikasi</option>
+                                            <option value="11">Dukungan Teknis Kodifikasi</option>
+                                            <option value="12">Kerjasama dan Pelatihan Kodifikasi</option>
+                                            <option value="13">Publikasi Katalog Materiil</option>
+                                            <option value="14">Fungsional Kataloger</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
