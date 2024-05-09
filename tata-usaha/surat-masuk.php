@@ -100,9 +100,7 @@ if ($stmt = $conn->prepare($query)) {
                                                     </tr>
                                             <?php
                                                 }
-                                            } else {
-                                                echo "Tidak ada surat masuk";
-                                            }
+                                            } 
                                             ?>
                                         </tbody>
                                     </table>
