@@ -8,6 +8,38 @@ INNER JOIN bidang ON pengguna.id_bidang = bidang.id_bidang
 ORDER BY bidang.id_bidang ASC";
 $resultPengguna = $conn->query($queryPengguna);
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $idPengirim = $_SESSION['id'];
+    $pilihPenerima = $_POST["pilihPenerima"];
+    $nomorSurat = $_POST["nomorSurat"];
+    $subjekSurat = $_POST["subjekSurat"];
+    $isiSurat = $_POST["isiSurat"];
+    date_default_timezone_set('Asia/Jakarta');
+    $tanggalDibuat = date('Y-m-d H:i:s');
+
+    // Simpan data ke dalam database menggunakan koneksi yang telah disediakan sebelumnya
+    $querySurat = "INSERT INTO surat (no_surat, subjek_surat, isi_surat, tanggal_dibuat) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($querySurat);
+    $stmt->bind_param("ssss", $nomorSurat, $subjekSurat, $isiSurat, $tanggalDibuat);
+    $stmt->execute();
+    $idSurat = $stmt->insert_id;
+    $stmt->close();
+
+    foreach($pilihPenerima as $idPenerima) {
+        $queryPenerima = "INSERT INTO penerima_surat (id_penerima, id_surat, id_pengirim) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($queryPenerima);
+        $stmt->bind_param("iii", $idPenerima, $idSurat, $idPengirim);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    $response['status'] = 'success';
+    $response['message'] = 'Surat berhasil terkirim!';
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -67,40 +99,43 @@ $resultPengguna = $conn->query($queryPengguna);
                                     <h3 class="card-title">Membuat Surat Baru</h3>
                                 </div>
                                 <!-- /.card-header -->
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <select class="select2" multiple="multiple" data-placeholder="Kepada: ">
-                                            <?php
-                                            while ($rowPengguna = $resultPengguna->fetch_assoc()) {
-                                                echo '<option value="' . $rowPengguna['id_bidang'] . '">' . $rowPengguna['nama_bidang'] . ' - ' . $rowPengguna['nama_pengguna'] . '</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Nomor surat:">
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Subjek surat:">
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea id="isiSurat" class="form-control" style="min-height: 800px">
+                                <form id="suratForm">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <select class="select2" multiple="multiple" id="pilihPenerima" name="pilihPenerima[]" data-placeholder="Kepada: ">
+                                                <?php
+                                                while ($rowPengguna = $resultPengguna->fetch_assoc()) {
+                                                    echo '<option value="' . $rowPengguna['id_pengguna'] . '">' . $rowPengguna['nama_bidang'] . ' - ' . $rowPengguna['nama_pengguna'] . '</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" id="nomorSurat" name="nomorSurat" placeholder="Nomor surat:">
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" id="subjekSurat" name="subjekSurat" placeholder="Subjek surat:">
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea id="isiSurat" name="isiSurat" class="form-control" style="min-height: 800px">
 
                     </textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="fileSurat" name="fileSurat">
-                                                <label class="custom-file-label" for="fileSurat">Pilih File Lampiran</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="fileSurat" name="fileSurat">
+                                                    <label class="custom-file-label" for="fileSurat">Pilih File Lampiran</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
+
                                 <!-- /.card-body -->
                                 <div class="card-footer">
                                     <div class="float-right">
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane" style="margin-right: 8px"></i> Kirim</button>
+                                        <button type="submit" id="submitButton" class="btn btn-primary" onclick="submitForm()"><i class="fas fa-paper-plane" style="margin-right: 8px"></i> Kirim</button>
                                     </div>
                                 </div>
                                 <!-- /.card-footer -->
@@ -152,6 +187,72 @@ $resultPengguna = $conn->query($queryPengguna);
                 minHeight: 200,
             })
         })
+
+        function submitForm() {
+            event.preventDefault();
+            if (validateForm()) {
+                validateSuccess();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Surat berhasil terkirim!',
+                    showCancelButton: false,
+                    confirmButtonColor: '#855b2f',
+                    confirmButtonText: 'OK (enter)'
+                })
+            }
+        }
+
+        function validateForm() {
+            var pilihPenerima = document.getElementById("pilihPenerima").value;
+            var nomorSurat = document.getElementById("nomorSurat").value;
+            var subjekSurat = document.getElementById("subjekSurat").value;
+            var isiSurat = document.getElementById("isiSurat").value;
+            if (pilihPenerima === "" || nomorSurat === "" || subjekSurat === "" || isiSurat === "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Harap lengkapi semua formulir!',
+                    showCancelButton: false,
+                    confirmButtonColor: '#855b2f',
+                    confirmButtonText: 'OK (enter)'
+                })
+                return false;
+            }
+            return true;
+        }
+
+        function validateSuccess() {
+            // Get the form data
+            var formData = $("#suratForm").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "buat-surat.php",
+                data: formData,
+                dataType: "json",
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Surat berhasil terkirim!',
+                        showCancelButton: false,
+                        confirmButtonColor: '#855b2f',
+                        confirmButtonText: 'OK (enter)'
+                    })
+
+                },
+                error: function(error) {
+                    console.log(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Gagal mengirim surat!',
+                        showCancelButton: false,
+                        confirmButtonColor: '#855b2f',
+                        confirmButtonText: 'OK (enter)'
+                    })
+                }
+            });
+        }
     </script>
 </body>
 
