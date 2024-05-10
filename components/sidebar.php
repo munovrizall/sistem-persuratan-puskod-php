@@ -29,7 +29,7 @@ $namaLengkap = $_SESSION['namaLengkap'];
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                 <li>
-                    <button onclick="window.location.href='/sistem-persuratan-puskod/tata-usaha/buat_surat.php'" class="btn btn-block btn-primary" style="margin-bottom: 24px">
+                    <button onclick="window.location.href='/sistem-persuratan-puskod/tata-usaha/buat-surat.php'" class="btn btn-block btn-primary" style="margin-bottom: 24px">
                         <i class="nav-icon fas fa-plus"></i> Buat Surat
                     </button>
                 </li>

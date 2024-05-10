@@ -9,9 +9,9 @@ if (isset($_GET['id'])) {
 
     $query = "SELECT surat.*, pengguna.nama_pengguna AS nama_pengirim, penerima_surat.*
     FROM surat
-    INNER JOIN pengguna ON surat.id_pengirim = pengguna.id_pengguna
     INNER JOIN penerima_surat ON surat.id_surat = penerima_surat.id_surat
-    WHERE surat.id_surat = ?
+    INNER JOIN pengguna ON penerima_surat.id_pengirim = pengguna.id_pengguna
+    WHERE penerima_surat.id_penerima_surat = ?
     ORDER BY surat.tanggal_dibuat DESC";
 
     $stmt = $conn->prepare($query);
@@ -25,7 +25,7 @@ if (isset($_GET['id'])) {
         echo "Surat tidak ditemukan.";
     }
 
-    $updateQuery = "UPDATE penerima_surat SET status_baca = 'SUDAH' WHERE id_surat = ?";
+    $updateQuery = "UPDATE penerima_surat SET status_baca = 'SUDAH' WHERE id_penerima_surat = ?";
     $updateStmt = $conn->prepare($updateQuery);
     $updateStmt->bind_param("i", $id_surat);
     $updateStmt->execute();

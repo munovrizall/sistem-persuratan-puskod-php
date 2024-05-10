@@ -7,8 +7,8 @@ $idPengguna = $_SESSION['id'];
 
 $query = "SELECT surat.*, pengguna.nama_pengguna AS nama_pengirim, penerima_surat.*
 FROM surat
-INNER JOIN pengguna ON surat.id_pengirim = pengguna.id_pengguna
 INNER JOIN penerima_surat ON surat.id_surat = penerima_surat.id_surat
+INNER JOIN pengguna ON penerima_surat.id_pengirim = pengguna.id_pengguna
 WHERE penerima_surat.id_penerima = ?
 ORDER BY surat.tanggal_dibuat DESC";
 
@@ -93,16 +93,14 @@ if ($stmt = $conn->prepare($query)) {
                                                     $tanggal = date('H:i d-m-Y', strtotime($row["tanggal_dibuat"]));
                                                     $style = ($row["status_baca"] == 'BELUM') ? 'font-weight:bold;' : '';
                                             ?>
-                                                    <tr onclick="window.location='detail-surat.php?id=<?php echo $row["id_surat"]; ?>'" style="<?php echo $style; ?>">
+                                                    <tr onclick="window.location='detail-surat.php?id=<?php echo $row["id_penerima_surat"]; ?>'" style="<?php echo $style; ?>">
                                                         <td><?php echo $row["nama_pengirim"]; ?></td>
                                                         <td><?php echo $row["subjek_surat"]; ?></td>
                                                         <td><?php echo $tanggal; ?></td>
                                                     </tr>
                                             <?php
                                                 }
-                                            } else {
-                                                echo "Tidak ada surat masuk";
-                                            }
+                                            } 
                                             ?>
                                         </tbody>
                                     </table>
