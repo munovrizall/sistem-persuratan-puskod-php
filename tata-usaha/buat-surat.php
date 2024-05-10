@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_FILES['fileSurat']) && $_FILES['fileSurat']['error'] === UPLOAD_ERR_OK) {
         // Tangani unggahan file
         $fileSurat = $_FILES['fileSurat'];
-        $uploadPath = $_SERVER['DOCUMENT_ROOT'] . "/lampiran-surat-puskod/" . basename($fileSurat['name']);
+        $uploadPath = $rootPath . "/sistem-persuratan-puskod/docs/" . basename($fileSurat['name']);
 
         if (!is_dir(dirname($uploadPath))) {
             mkdir(dirname($uploadPath), 0777, true);
