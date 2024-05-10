@@ -17,29 +17,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     date_default_timezone_set('Asia/Jakarta');
     $tanggalDibuat = date('Y-m-d H:i:s');
 
-    // Simpan data ke dalam database menggunakan koneksi yang telah disediakan sebelumnya
-    $querySurat = "INSERT INTO surat (no_surat, subjek_surat, isi_surat, tanggal_dibuat) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($querySurat);
-    $stmt->bind_param("ssss", $nomorSurat, $subjekSurat, $isiSurat, $tanggalDibuat);
-    $stmt->execute();
-    $idSurat = $stmt->insert_id;
-    $stmt->close();
+    // Periksa apakah file telah diunggah dengan benar
+    if (isset($_FILES['fileSurat']) && $_FILES['fileSurat']['error'] === UPLOAD_ERR_OK) {
+        // Tangani unggahan file
+        $fileSurat = $_FILES['fileSurat'];
+        $uploadPath = $_SERVER['DOCUMENT_ROOT'] . "/lampiran-surat-puskod/" . basename($fileSurat['name']);
 
-    foreach($pilihPenerima as $idPenerima) {
-        $queryPenerima = "INSERT INTO penerima_surat (id_penerima, id_surat, id_pengirim) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($queryPenerima);
-        $stmt->bind_param("iii", $idPenerima, $idSurat, $idPengirim);
-        $stmt->execute();
-        $stmt->close();
+        if (!is_dir(dirname($uploadPath))) {
+            mkdir(dirname($uploadPath), 0777, true);
+        }
+
+        if (move_uploaded_file($fileSurat['tmp_name'], $uploadPath)) {
+            // Simpan data ke dalam database menggunakan koneksi yang telah disediakan sebelumnya
+            $querySurat = "INSERT INTO surat (no_surat, subjek_surat, isi_surat, file_surat, nama_file_surat, tanggal_dibuat) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($querySurat);
+            $stmt->bind_param("ssssss", $nomorSurat, $subjekSurat, $isiSurat, $uploadPath, $fileSurat['name'], $tanggalDibuat);
+            $stmt->execute();
+            $idSurat = $stmt->insert_id;
+            $stmt->close();
+
+            foreach ($pilihPenerima as $idPenerima) {
+                $queryPenerima = "INSERT INTO penerima_surat (id_penerima, id_surat, id_pengirim) VALUES (?, ?, ?)";
+                $stmt = $conn->prepare($queryPenerima);
+                $stmt->bind_param("iii", $idPenerima, $idSurat, $idPengirim);
+                $stmt->execute();
+                $stmt->close();
+            }
+
+            $response['status'] = 'success';
+            $response['message'] = 'Surat berhasil terkirim!';
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+        } else {
+            $response['status'] = 'error';
+            $response['message'] = 'Gagal menyimpan file!';
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+        }
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'File surat tidak diunggah dengan benar!';
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit();
     }
-
-    $response['status'] = 'success';
-    $response['message'] = 'Surat berhasil terkirim!';
-
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    exit();
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -99,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <h3 class="card-title">Membuat Surat Baru</h3>
                                 </div>
                                 <!-- /.card-header -->
-                                <form id="suratForm">
+                                <form id="suratForm" enctype="multipart/form-data" method="post" action="buat-surat.php">
                                     <div class="card-body">
                                         <div class="form-group">
                                             <select class="select2" multiple="multiple" id="pilihPenerima" name="pilihPenerima[]" data-placeholder="Kepada: ">
@@ -117,11 +146,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <input class="form-control" id="subjekSurat" name="subjekSurat" placeholder="Subjek surat:">
                                         </div>
                                         <div class="form-group">
-                                            <textarea id="isiSurat" name="isiSurat" class="form-control" style="min-height: 800px">
-
-                    </textarea>
-                                        </div>
-                                        <div class="form-group">
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input" id="fileSurat" name="fileSurat">
@@ -129,15 +153,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <textarea id="isiSurat" name="isiSurat" class="form-control" style="min-height: 800px">
+
+                    </textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- /.card-body -->
+                                    <div class="card-footer">
+                                        <div class="float-right">
+                                            <button type="submit" id="submitButton" class="btn btn-primary"><i class="fas fa-paper-plane" style="margin-right: 8px"></i> Kirim</button>
+                                        </div>
                                     </div>
                                 </form>
-
-                                <!-- /.card-body -->
-                                <div class="card-footer">
-                                    <div class="float-right">
-                                        <button type="submit" id="submitButton" class="btn btn-primary" onclick="submitForm()"><i class="fas fa-paper-plane" style="margin-right: 8px"></i> Kirim</button>
-                                    </div>
-                                </div>
                                 <!-- /.card-footer -->
                             </div>
                             <!-- /.card -->
@@ -188,19 +217,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             })
         })
 
-        function submitForm() {
+        $("#suratForm").submit(function(e) {
             event.preventDefault();
             if (validateForm()) {
                 validateSuccess();
+                e.preventDefault();
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: "buat-surat.php",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Surat berhasil terkirim!',
+                            showCancelButton: false,
+                            confirmButtonColor: '#855b2f',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            } else {
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Surat berhasil terkirim!',
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Harap lengkapi semua formulir!',
                     showCancelButton: false,
                     confirmButtonColor: '#855b2f',
-                    confirmButtonText: 'OK (enter)'
-                })
+                    confirmButtonText: 'OK'
+                });
             }
-        }
+        });
 
         function validateForm() {
             var pilihPenerima = document.getElementById("pilihPenerima").value;
@@ -214,7 +271,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     text: 'Harap lengkapi semua formulir!',
                     showCancelButton: false,
                     confirmButtonColor: '#855b2f',
-                    confirmButtonText: 'OK (enter)'
+                    confirmButtonText: 'OK'
                 })
                 return false;
             }
@@ -224,7 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         function validateSuccess() {
             // Get the form data
             var formData = $("#suratForm").serialize();
-
+            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "buat-surat.php",
@@ -236,8 +293,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         title: 'Surat berhasil terkirim!',
                         showCancelButton: false,
                         confirmButtonColor: '#855b2f',
-                        confirmButtonText: 'OK (enter)'
-                    })
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
 
                 },
                 error: function(error) {
@@ -248,8 +309,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         text: 'Gagal mengirim surat!',
                         showCancelButton: false,
                         confirmButtonColor: '#855b2f',
-                        confirmButtonText: 'OK (enter)'
-                    })
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
                 }
             });
         }
