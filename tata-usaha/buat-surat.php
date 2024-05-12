@@ -264,7 +264,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             var nomorSurat = document.getElementById("nomorSurat").value;
             var subjekSurat = document.getElementById("subjekSurat").value;
             var isiSurat = document.getElementById("isiSurat").value;
-            if (pilihPenerima === "" || nomorSurat === "" || subjekSurat === "" || isiSurat === "") {
+            var fileSurat = document.getElementById("fileSurat").value;
+            if (pilihPenerima === "" || nomorSurat === "" || subjekSurat === "" || isiSurat === "" || fileSurat === "") {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',

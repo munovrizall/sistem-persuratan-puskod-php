@@ -108,10 +108,11 @@ if (isset($_GET['id'])) {
                                         echo '<ul class="mailbox-attachments d-flex align-items-stretch clearfix">
             <li>
                 <span class="mailbox-attachment-icon"><i class="far fa-file-pdf"></i></span>
-
                 <div class="mailbox-attachment-info">
                     <a href="/sistem-persuratan-puskod/docs/' . $row["nama_file_surat"] . '" " class="mailbox-attachment-name"><i class="fas fa-paperclip" style="margin-right: 8px"></i>' . $row["nama_file_surat"] . '</a>
-                    
+                    <span class="mailbox-attachment-size clearfix mt-1">
+                          <a href="/sistem-persuratan-puskod/docs/' . $row["nama_file_surat"] . '" class="btn btn-default btn-sm float-right" download><i class="fas fa-cloud-download-alt"></i></a>
+                        </span>
                 </div>
             </li>
         </ul>';

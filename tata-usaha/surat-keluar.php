@@ -91,9 +91,8 @@ if ($stmt = $conn->prepare($query)) {
                                             if ($result->num_rows > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     $tanggal = date('H:i d-m-Y', strtotime($row["tanggal_dibuat"]));
-                                                    $style = ($row["status_baca"] == 'BELUM') ? 'font-weight:bold;' : '';
                                             ?>
-                                                    <tr onclick="window.location='detail-surat.php?id=<?php echo $row["id_penerima_surat"]; ?>'" style="<?php echo $style; ?>">
+                                                    <tr onclick="window.location='surat-keluar-detail.php?id=<?php echo $row["id_penerima_surat"]; ?>'">
                                                         <td><?php echo $row["nama_penerima"]; ?></td>
                                                         <td><?php echo $row["subjek_surat"]; ?></td>
                                                         <td><?php echo $tanggal; ?></td>

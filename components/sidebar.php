@@ -1,6 +1,22 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
 $namaLengkap = $_SESSION['namaLengkap'];
+$idPengguna = $_SESSION['id'];
+
+$queryBelumBaca = "SELECT COUNT(*) AS jumlah
+FROM penerima_surat
+WHERE id_penerima = ? AND status_baca = 'BELUM'";
+
+if ($stmt = $conn->prepare($queryBelumBaca)) {
+    $stmt->bind_param("s", $idPengguna);
+    $stmt->execute();
+    $resultBelumBaca = $stmt->get_result();
+    $stmt->close();
+    $rowBelumBaca = mysqli_fetch_assoc($resultBelumBaca);
+} else {
+    echo "Gagal melakukan persiapan statement SQL.";
+}
+
 ?>
 
 <!-- Main Sidebar Container -->
@@ -51,10 +67,13 @@ $namaLengkap = $_SESSION['namaLengkap'];
                     <?php
                     echo (
                         strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-masuk.php')  ||
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-masuk-detail.php')  
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-masuk-detail.php')
                     )
                         ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-inbox"></i>
+                        <?php if ($rowBelumBaca["jumlah"] > 0) : ?>
+                            <span class="badge badge-danger right"><?php echo $rowBelumBaca["jumlah"] ?></span>
+                        <?php endif; ?>
                         <p>
                             Surat Masuk
                         </p>
@@ -64,7 +83,8 @@ $namaLengkap = $_SESSION['namaLengkap'];
                     <a href="/sistem-persuratan-puskod/tata-usaha/surat-keluar.php" class="nav-link 
                     <?php
                     echo (
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-keluar.php')
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-keluar.php') ||
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-keluar-detail.php')
                     )
                         ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-paper-plane"></i>
