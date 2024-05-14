@@ -48,7 +48,7 @@ if ($stmt = $conn->prepare($query)) {
 
         <?php
         include $rootPath . "/sistem-persuratan-puskod/components/navbar.php";
-        include $rootPath . "/sistem-persuratan-puskod/components/sidebar.php";
+        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-super.php";
         ?>
 
         <!-- Content Wrapper. Contains page content -->
@@ -82,6 +82,7 @@ if ($stmt = $conn->prepare($query)) {
                                         <thead>
                                             <tr>
                                                 <th>Nama Pengirim</th>
+                                                <th>No Surat</th>
                                                 <th>Subjek Surat</th>
                                                 <th>Tanggal Diterima</th>
                                             </tr>
@@ -95,6 +96,7 @@ if ($stmt = $conn->prepare($query)) {
                                             ?>
                                                     <tr onclick="window.location='surat-masuk-detail.php?id=<?php echo $row["id_penerima_surat"]; ?>'" style="<?php echo $style; ?>">
                                                         <td><?php echo $row["nama_pengirim"]; ?></td>
+                                                        <td><?php echo $row["no_surat"]; ?></td>
                                                         <td><?php echo $row["subjek_surat"]; ?></td>
                                                         <td><?php echo $tanggal; ?></td>
                                                     </tr>

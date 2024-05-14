@@ -3,11 +3,11 @@ $rootPath = $_SERVER['DOCUMENT_ROOT'];
 include $rootPath . "/sistem-persuratan-puskod/config/connection-with-auth.php";
 
 if (isset($_GET['id'])) {
-    $idPengguna = $_GET['id'];
+    $idPenggunaEdit = $_GET['id'];
 
     $query = "SELECT * FROM pengguna WHERE id_pengguna = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $idPengguna);
+    $stmt->bind_param("i", $idPenggunaEdit);
     $stmt->execute();
 
     $result = $stmt->get_result();
@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $idPengguna = isset($_POST["idPengguna"]) ? $_POST["idPengguna"] : null;
+    $idPenggunaEdit = isset($_POST["idPengguna"]) ? $_POST["idPengguna"] : null;
     $namaPengguna = isset($_POST["namaPengguna"]) ? $_POST["namaPengguna"] : null;
     $bidang = isset($_POST["pilihBidang"]) ? $_POST["pilihBidang"] : null;
     $jabatan = isset($_POST["pilihJabatan"]) ? $_POST["pilihJabatan"] : null;
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $updateQuery = "UPDATE pengguna SET nama_pengguna = ?, id_bidang = ?, jabatan = ?, email = ?, password = ? WHERE id_pengguna = ?";
     $updateStmt = $conn->prepare($updateQuery);
-    $updateStmt->bind_param("sisssi", $namaPengguna, $bidang, $jabatan, $email, $password, $idPengguna);
+    $updateStmt->bind_param("sisssi", $namaPengguna, $bidang, $jabatan, $email, $password, $idPenggunaEdit);
     if ($updateStmt->execute()) {
         // Pembaruan berhasil
         $response['status'] = 'success';
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <?php
         include $rootPath . "/sistem-persuratan-puskod/components/navbar.php";
-        include $rootPath . "/sistem-persuratan-puskod/components/sidebar.php";
+        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-super.php";
         ?>
 
         <!-- Content Wrapper. Contains page content -->
@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <h3 class="card-title">Mengubah Pengguna Sistem Persuratan</h3>
                             </div>
                             <form id="penggunaForm" method="post">
-                                <input type="hidden" name="idPengguna" value="<?php echo $idPengguna; ?>">
+                                <input type="hidden" name="idPengguna" value="<?php echo $idPenggunaEdit; ?>">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <div>
@@ -209,7 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     text: 'Harap lengkapi semua formulir!',
                     showCancelButton: false,
                     confirmButtonColor: '#855b2f',
-                    confirmButtonText: 'OK (enter)'
+                    confirmButtonText: 'OK'
                 })
                 return false;
             }

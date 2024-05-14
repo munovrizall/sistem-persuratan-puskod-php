@@ -86,7 +86,7 @@ if ($stmt = $conn->prepare($queryBelumBaca)) {
 
         <?php
         include $rootPath . "/sistem-persuratan-puskod/components/navbar.php";
-        include $rootPath . "/sistem-persuratan-puskod/components/sidebar.php";
+        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-super.php";
         ?>
 
         <!-- Content Wrapper. Contains page content -->
