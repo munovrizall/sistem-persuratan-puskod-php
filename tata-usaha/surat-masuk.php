@@ -94,7 +94,7 @@ if ($stmt = $conn->prepare($query)) {
                                                     $tanggal = date('H:i d-m-Y', strtotime($row["tanggal_dibuat"]));
                                                     $style = ($row["status_baca"] == 'BELUM') ? 'font-weight:bold;' : '';
                                             ?>
-                                                    <tr onclick="window.location='surat-masuk-detail.php?id=<?php echo $row["id_penerima_surat"]; ?>'" style="<?php echo $style; ?>">
+                                                    <tr onclick="window.location='surat-masuk-detail?id=<?php echo $row["id_penerima_surat"]; ?>'" style="<?php echo $style; ?>">
                                                         <td><?php echo $row["nama_pengirim"]; ?></td>
                                                         <td><?php echo $row["no_surat"]; ?></td>
                                                         <td><?php echo $row["subjek_surat"]; ?></td>

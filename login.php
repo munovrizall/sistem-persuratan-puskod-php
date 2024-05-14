@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Verify the hashed password using password_verify
         if ($password === $accountData['password'] && $email === $accountData['email']) {
-            header("location: homepage.php");
+            header("location: homepage");
             exit();
         } else {
             echo "Password salah";
@@ -174,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 // Parse the response as JSON
                                 var responseData = JSON.parse(response);
 
-                                window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage.php";
+                                window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage";
                             },
                             error: function(error) {
                                 console.error("Error sending username to server: " + error);

@@ -93,7 +93,7 @@ if ($stmt = $conn->prepare($query)) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     $tanggal = date('H:i d-m-Y', strtotime($row["tanggal_dibuat"]));
                                             ?>
-                                                    <tr onclick="window.location='surat-keluar-detail.php?id=<?php echo $row["id_penerima_surat"]; ?>'">
+                                                    <tr onclick="window.location='surat-keluar-detail?id=<?php echo $row["id_penerima_surat"]; ?>'">
                                                         <td><?php echo $row["nama_penerima"]; ?></td>
                                                         <td><?php echo $row["no_surat"]; ?></td>
                                                         <td><?php echo $row["subjek_surat"]; ?></td>

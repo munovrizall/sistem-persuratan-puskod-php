@@ -10,7 +10,7 @@
   <!-- Right navbar links -->
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-      <a class="nav-link" href="/sistem-persuratan-puskod/config/logout.php">
+      <a class="nav-link" href="/sistem-persuratan-puskod/config/logout">
         <i class="fas fa-sign-out-alt"></i> Logout
       </a>
     </li>

@@ -55,7 +55,7 @@ $result = $conn->query($query);
                     <div class="col-12">
                         <div class="card card-primary card-outline">
                             <div class="card-header align-center">
-                                <a href="tambah.php">
+                                <a href="tambah">
                                     <button type="button" class="btn btn-primary btn-block" style="max-width: 200px;">
                                         <i class="fas fa-plus" style="margin-right: 8px;"></i>Tambah Pengguna
                                     </button>
@@ -85,7 +85,7 @@ $result = $conn->query($query);
                                                         <td><?php echo $row["nama_bidang"]; ?></td>
                                                         <td class="text-center">
                                                             <div style="display: inline-block;">
-                                                                <a href='edit.php?id=<?php echo $row["id_pengguna"]; ?>' class="btn btn-info"><i class="fas fa-edit"></i></a>
+                                                                <a href='edit?id=<?php echo $row["id_pengguna"]; ?>' class="btn btn-info"><i class="fas fa-edit"></i></a>
                                                             </div>
                                                             <a href='#' class='btn btn-danger delete-btn' data-id='<?php echo $row["id_pengguna"]; ?>'><i class="fas fa-trash"></i></a>
                                                         </td>
