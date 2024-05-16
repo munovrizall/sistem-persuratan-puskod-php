@@ -101,7 +101,7 @@ if (isset($_GET['id'])) {
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer bg-white">
-                                    <?php 
+                                    <?php
 
                                     if (!empty($row["file_surat"])) {
                                         // Tampilkan ikon file jika ada data pada kolom file_surat
@@ -122,7 +122,10 @@ if (isset($_GET['id'])) {
                                 <!-- /.card-footer -->
                                 <div class="card-footer">
                                     <div class="float-right">
-                                        <button type="button" onclick="window.history.back();" class="btn btn-primary"><i class="fas fa-arrow-left" style="margin-right: 8px"></i> Kembali</button>
+                                        <a href="teruskan-surat?id_surat=<?php echo $row["id_surat"]; ?>" class="btn btn-default">
+                                            <i class="fas fa-share" style="margin-right: 8px"></i> Teruskan
+                                        </a>
+
                                     </div>
                                 </div>
                                 <!-- /.card-footer -->
