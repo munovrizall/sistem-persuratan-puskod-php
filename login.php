@@ -173,8 +173,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             success: function(response) {
                                 // Parse the response as JSON
                                 var responseData = JSON.parse(response);
-
-                                window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage";
+                                if (responseData.role === 1) {
+                                    window.location.href = "/sistem-persuratan-puskod/kepala-pusat/homepage";
+                                } else if (responseData.role === 2) {
+                                    window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage";
+                                } else {
+                                    window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage";
+                                }
                             },
                             error: function(error) {
                                 console.error("Error sending username to server: " + error);

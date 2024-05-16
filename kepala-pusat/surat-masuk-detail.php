@@ -1,6 +1,6 @@
 <?php
 $rootPath = $_SERVER['DOCUMENT_ROOT'];
-include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-tu.php";
+include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-pusat.php";
 
 $namaLengkap = $_SESSION['namaLengkap'];
 
@@ -25,6 +25,10 @@ if (isset($_GET['id'])) {
         echo "Surat tidak ditemukan.";
     }
 
+    $updateQuery = "UPDATE penerima_surat SET status_baca = 'SUDAH' WHERE id_penerima_surat = ?";
+    $updateStmt = $conn->prepare($updateQuery);
+    $updateStmt->bind_param("i", $id_surat);
+    $updateStmt->execute();
 } else {
     echo "ID not provided.";
 }
@@ -48,7 +52,7 @@ if (isset($_GET['id'])) {
 
         <?php
         include $rootPath . "/sistem-persuratan-puskod/components/navbar.php";
-        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-tu.php";
+        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-pusat.php";
         ?>
 
         <!-- Content Wrapper. Contains page content -->
@@ -97,7 +101,7 @@ if (isset($_GET['id'])) {
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer bg-white">
-                                    <?php 
+                                    <?php
 
                                     if (!empty($row["file_surat"])) {
                                         // Tampilkan ikon file jika ada data pada kolom file_surat
@@ -118,7 +122,10 @@ if (isset($_GET['id'])) {
                                 <!-- /.card-footer -->
                                 <div class="card-footer">
                                     <div class="float-right">
-                                        <button type="button" onclick="window.history.back();" class="btn btn-primary"><i class="fas fa-arrow-left" style="margin-right: 8px"></i> Kembali</button>
+                                        <a href="teruskan-surat?id_surat=<?php echo $row["id_surat"]; ?>" class="btn btn-default">
+                                            <i class="fas fa-share" style="margin-right: 8px"></i> Teruskan
+                                        </a>
+
                                     </div>
                                 </div>
                                 <!-- /.card-footer -->

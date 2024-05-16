@@ -1,27 +1,11 @@
 <?php
 $rootPath = $_SERVER['DOCUMENT_ROOT'];
-include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-tu.php";
+include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-pusat.php";
 
-$namaLengkap = $_SESSION['namaLengkap'];
-$idPengguna = $_SESSION['id'];
-
-$query = "SELECT surat.*, pengguna.nama_pengguna AS nama_pengirim, penerima_surat.*
-FROM surat
-INNER JOIN penerima_surat ON surat.id_surat = penerima_surat.id_surat
-INNER JOIN pengguna ON penerima_surat.id_pengirim = pengguna.id_pengguna
-WHERE penerima_surat.id_penerima = ?
-ORDER BY surat.tanggal_dibuat DESC";
-
-if ($stmt = $conn->prepare($query)) {
-    $stmt->bind_param("s", $idPengguna);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-} else {
-    echo "Gagal melakukan persiapan statement SQL.";
-}
-
-
+$query = "SELECT *
+FROM pengguna
+INNER JOIN bidang ON pengguna.id_bidang = bidang.id_bidang";
+$result = $conn->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -30,16 +14,11 @@ if ($stmt = $conn->prepare($query)) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Surat Masuk</title>
+    <title>Kelola Pengguna</title>
 
     <?php
     include $rootPath . "/sistem-persuratan-puskod/components/style.html";
     ?>
-    <style>
-        #tabelSurat tbody tr:hover {
-            cursor: pointer;
-        }
-    </style>
 
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -48,7 +27,7 @@ if ($stmt = $conn->prepare($query)) {
 
         <?php
         include $rootPath . "/sistem-persuratan-puskod/components/navbar.php";
-        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-tu.php";
+        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-pusat.php";
         ?>
 
         <!-- Content Wrapper. Contains page content -->
@@ -58,12 +37,12 @@ if ($stmt = $conn->prepare($query)) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Surat Masuk</h1>
+                            <h1>Kelola Pengguna</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="/sistem-persuratan-puskod/tata-usaha/homepage.php">Home</a></li>
-                                <li class="breadcrumb-item active">Surat Masuk</li>
+                                <li class="breadcrumb-item active">Kelola Pengguna</li>
                             </ol>
                         </div>
                     </div>
@@ -75,34 +54,47 @@ if ($stmt = $conn->prepare($query)) {
                 <div class="row">
                     <div class="col-12">
                         <div class="card card-primary card-outline">
-
+                            <div class="card-header align-center">
+                                <a href="tambah">
+                                    <button type="button" class="btn btn-primary btn-block" style="max-width: 200px;">
+                                        <i class="fas fa-plus" style="margin-right: 8px;"></i>Tambah Pengguna
+                                    </button>
+                                </a>
+                            </div>
                             <div class="card-body p-0">
                                 <div class="table-responsive card-padding">
-                                    <table id="tabelSurat" class="table table-hover table-striped">
+                                    <table id="tabelPengguna" class="table table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Nama Pengirim</th>
-                                                <th>No Surat</th>
-                                                <th>Subjek Surat</th>
-                                                <th>Tanggal Diterima</th>
+                                                <th>Nama Pengguna</th>
+                                                <th>Email</th>
+                                                <th>Jabatan</th>
+                                                <th>Bidang</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
                                             if ($result->num_rows > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
-                                                    $tanggal = date('H:i d-m-Y', strtotime($row["tanggal_dibuat"]));
-                                                    $style = ($row["status_baca"] == 'BELUM') ? 'font-weight:bold;' : '';
                                             ?>
-                                                    <tr onclick="window.location='surat-masuk-detail?id=<?php echo $row["id_penerima_surat"]; ?>'" style="<?php echo $style; ?>">
-                                                        <td><?php echo $row["nama_pengirim"]; ?></td>
-                                                        <td><?php echo $row["no_surat"]; ?></td>
-                                                        <td><?php echo $row["subjek_surat"]; ?></td>
-                                                        <td><?php echo $tanggal; ?></td>
+                                                    <tr>
+                                                        <td><?php echo $row["nama_pengguna"]; ?></td>
+                                                        <td><?php echo $row["email"]; ?></td>
+                                                        <td><?php echo $row["jabatan"]; ?></td>
+                                                        <td><?php echo $row["nama_bidang"]; ?></td>
+                                                        <td class="text-center">
+                                                            <div style="display: inline-block;">
+                                                                <a href='edit?id=<?php echo $row["id_pengguna"]; ?>' class="btn btn-info"><i class="fas fa-edit"></i></a>
+                                                            </div>
+                                                            <a href='#' class='btn btn-danger delete-btn' data-id='<?php echo $row["id_pengguna"]; ?>'><i class="fas fa-trash"></i></a>
+                                                        </td>
                                                     </tr>
                                             <?php
                                                 }
-                                            } 
+                                            } else {
+                                                echo "Tidak ada pengguna";
+                                            }
                                             ?>
                                         </tbody>
                                     </table>
@@ -140,7 +132,7 @@ if ($stmt = $conn->prepare($query)) {
     <script>
         $(document).ready(function() {
 
-            var table = $('#tabelSurat').DataTable({
+            var table = $('#tabelPengguna').DataTable({
                 fixedHeader: true,
                 responsive: true,
                 language: {
@@ -164,6 +156,29 @@ if ($stmt = $conn->prepare($query)) {
                 ],
                 order: [],
             });
+
+            $('#tabelPengguna').on('click', '.delete-btn', function(e) {
+                e.preventDefault();
+                var userId = $(this).data('id');
+
+                // Tampilkan konfirmasi SweetAlert
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Data pengguna ini akan dihapus!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Jika dikonfirmasi, lakukan penghapusan
+                        window.location.href = 'hapus.php?id=' + userId;
+                    }
+                });
+            });
+
         })
     </script>
 </body>

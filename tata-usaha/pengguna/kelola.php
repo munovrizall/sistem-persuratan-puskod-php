@@ -1,6 +1,6 @@
 <?php
 $rootPath = $_SERVER['DOCUMENT_ROOT'];
-include $rootPath . "/sistem-persuratan-puskod/config/connection-with-auth.php";
+include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-tu.php";
 
 $query = "SELECT *
 FROM pengguna
@@ -27,7 +27,7 @@ $result = $conn->query($query);
 
         <?php
         include $rootPath . "/sistem-persuratan-puskod/components/navbar.php";
-        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-super.php";
+        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-tu.php";
         ?>
 
         <!-- Content Wrapper. Contains page content -->

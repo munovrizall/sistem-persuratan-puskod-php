@@ -22,11 +22,11 @@ if(isset($_POST['username'])) {
     }
 
     // Prepare and execute the query to fetch the full name based on the username
-    $queryNama = "SELECT nama_pengguna, id_bidang, id_pengguna FROM pengguna WHERE email = ?";
+    $queryNama = "SELECT nama_pengguna, id_bidang, jabatan, id_pengguna FROM pengguna WHERE email = ?";
     $stmt = $conn->prepare($queryNama);
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $stmt->bind_result($nama, $role, $idPengguna);
+    $stmt->bind_result($nama, $role, $jabatan, $idPengguna);
     $stmt->fetch();
     $stmt->close();
 
@@ -35,12 +35,14 @@ if(isset($_POST['username'])) {
         $_SESSION['username'] = $email;
         $_SESSION['namaLengkap'] = $nama;
         $_SESSION['role'] = $role;
+        $_SESSION['jabatan'] = $jabatan;
         $_SESSION['id'] = $idPengguna;
 
         $userData = array(
             'username' => $email,
             'namaLengkap' => $nama,
             'role' => $role,
+            'jabatan' => $jabatan,
             'id' => $idPengguna,
         );
     

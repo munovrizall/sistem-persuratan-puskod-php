@@ -22,7 +22,7 @@ if ($stmt = $conn->prepare($queryBelumBaca)) {
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="/sistem-persuratan-puskod/tata-usaha/homepage" class="brand-link">
+    <a href="/sistem-persuratan-puskod/kepala-pusat/homepage" class="brand-link">
         <img src="/sistem-persuratan-puskod/assets/image/logo-kemhan.png" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-bold">Pusat Kodifikasi</span>
     </a>
@@ -45,15 +45,15 @@ if ($stmt = $conn->prepare($queryBelumBaca)) {
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                 <li>
-                    <button onclick="window.location.href='/sistem-persuratan-puskod/tata-usaha/buat-surat'" class="btn btn-block btn-primary" style="margin-bottom: 24px">
+                    <button onclick="window.location.href='/sistem-persuratan-puskod/kepala-pusat/buat-surat'" class="btn btn-block btn-primary" style="margin-bottom: 24px">
                         <i class="nav-icon fas fa-plus"></i> Buat Surat
                     </button>
                 </li>
                 <li class="nav-item">
-                    <a href="/sistem-persuratan-puskod/tata-usaha/homepage" class="nav-link 
+                    <a href="/sistem-persuratan-puskod/kepala-pusat/homepage" class="nav-link 
                     <?php
                     echo (
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/homepage')
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/kepala-pusat/homepage')
                     )
                         ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-home"></i>
@@ -63,11 +63,11 @@ if ($stmt = $conn->prepare($queryBelumBaca)) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/sistem-persuratan-puskod/tata-usaha/surat-masuk" class="nav-link 
+                    <a href="/sistem-persuratan-puskod/kepala-pusat/surat-masuk" class="nav-link 
                     <?php
                     echo (
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-masuk')  ||
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-masuk-detail')
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/kepala-pusat/surat-masuk')  ||
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/kepala-pusat/surat-masuk-detail')
                     )
                         ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-inbox"></i>
@@ -80,11 +80,11 @@ if ($stmt = $conn->prepare($queryBelumBaca)) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/sistem-persuratan-puskod/tata-usaha/surat-keluar" class="nav-link 
+                    <a href="/sistem-persuratan-puskod/kepala-pusat/surat-keluar" class="nav-link 
                     <?php
                     echo (
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-keluar') ||
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/surat-keluar-detail')
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/kepala-pusat/surat-keluar') ||
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/kepala-pusat/surat-keluar-detail')
                     )
                         ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-paper-plane"></i>
@@ -94,12 +94,12 @@ if ($stmt = $conn->prepare($queryBelumBaca)) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/sistem-persuratan-puskod/tata-usaha/pengguna/kelola" class="nav-link 
+                    <a href="/sistem-persuratan-puskod/kepala-pusat/pengguna/kelola" class="nav-link 
                     <?php
                     echo (
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/pengguna/kelola') ||
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/pengguna/tambah') ||
-                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/tata-usaha/pengguna/edit')
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/kepala-pusat/pengguna/kelola') ||
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/kepala-pusat/pengguna/tambah') ||
+                        strpos($_SERVER['REQUEST_URI'], 'sistem-persuratan-puskod/kepala-pusat/pengguna/edit')
                     )
                         ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-user"></i>

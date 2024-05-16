@@ -1,15 +1,15 @@
 <?php
 $rootPath = $_SERVER['DOCUMENT_ROOT'];
-include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-tu.php";
+include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-pusat.php";
 
 $namaLengkap = $_SESSION['namaLengkap'];
 $idPengguna = $_SESSION['id'];
 
-$query = "SELECT surat.*, pengguna.nama_pengguna AS nama_pengirim, penerima_surat.*
+$query = "SELECT surat.*, pengguna.nama_pengguna AS nama_penerima, penerima_surat.*
 FROM surat
 INNER JOIN penerima_surat ON surat.id_surat = penerima_surat.id_surat
-INNER JOIN pengguna ON penerima_surat.id_pengirim = pengguna.id_pengguna
-WHERE penerima_surat.id_penerima = ?
+INNER JOIN pengguna ON penerima_surat.id_penerima = pengguna.id_pengguna
+WHERE penerima_surat.id_pengirim = ?
 ORDER BY surat.tanggal_dibuat DESC";
 
 if ($stmt = $conn->prepare($query)) {
@@ -30,7 +30,7 @@ if ($stmt = $conn->prepare($query)) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Surat Masuk</title>
+    <title>Surat Keluar</title>
 
     <?php
     include $rootPath . "/sistem-persuratan-puskod/components/style.html";
@@ -48,7 +48,7 @@ if ($stmt = $conn->prepare($query)) {
 
         <?php
         include $rootPath . "/sistem-persuratan-puskod/components/navbar.php";
-        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-tu.php";
+        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-pusat.php";
         ?>
 
         <!-- Content Wrapper. Contains page content -->
@@ -58,12 +58,12 @@ if ($stmt = $conn->prepare($query)) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Surat Masuk</h1>
+                            <h1>Surat Keluar</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="/sistem-persuratan-puskod/tata-usaha/homepage.php">Home</a></li>
-                                <li class="breadcrumb-item active">Surat Masuk</li>
+                                <li class="breadcrumb-item active">Surat Keluar</li>
                             </ol>
                         </div>
                     </div>
@@ -81,10 +81,10 @@ if ($stmt = $conn->prepare($query)) {
                                     <table id="tabelSurat" class="table table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Nama Pengirim</th>
+                                                <th>Nama Penerima</th>
                                                 <th>No Surat</th>
                                                 <th>Subjek Surat</th>
-                                                <th>Tanggal Diterima</th>
+                                                <th>Tanggal Terkirim</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -92,10 +92,9 @@ if ($stmt = $conn->prepare($query)) {
                                             if ($result->num_rows > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     $tanggal = date('H:i d-m-Y', strtotime($row["tanggal_dibuat"]));
-                                                    $style = ($row["status_baca"] == 'BELUM') ? 'font-weight:bold;' : '';
                                             ?>
-                                                    <tr onclick="window.location='surat-masuk-detail?id=<?php echo $row["id_penerima_surat"]; ?>'" style="<?php echo $style; ?>">
-                                                        <td><?php echo $row["nama_pengirim"]; ?></td>
+                                                    <tr onclick="window.location='surat-keluar-detail?id=<?php echo $row["id_penerima_surat"]; ?>'">
+                                                        <td><?php echo $row["nama_penerima"]; ?></td>
                                                         <td><?php echo $row["no_surat"]; ?></td>
                                                         <td><?php echo $row["subjek_surat"]; ?></td>
                                                         <td><?php echo $tanggal; ?></td>

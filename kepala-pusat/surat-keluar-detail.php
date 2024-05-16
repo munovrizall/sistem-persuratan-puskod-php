@@ -1,6 +1,6 @@
 <?php
 $rootPath = $_SERVER['DOCUMENT_ROOT'];
-include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-tu.php";
+include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-pusat.php";
 
 $namaLengkap = $_SESSION['namaLengkap'];
 
@@ -48,7 +48,7 @@ if (isset($_GET['id'])) {
 
         <?php
         include $rootPath . "/sistem-persuratan-puskod/components/navbar.php";
-        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-tu.php";
+        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-pusat.php";
         ?>
 
         <!-- Content Wrapper. Contains page content -->

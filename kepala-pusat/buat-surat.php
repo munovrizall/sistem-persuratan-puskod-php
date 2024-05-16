@@ -1,6 +1,6 @@
 <?php
 $rootPath = $_SERVER['DOCUMENT_ROOT'];
-include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-tu.php";
+include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-pusat.php";
 
 $queryPengguna = "SELECT pengguna.*, bidang.*
 FROM pengguna
@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="wrapper">
         <?php
         include $rootPath . "/sistem-persuratan-puskod/components/navbar.php";
-        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-tu.php";
+        include $rootPath . "/sistem-persuratan-puskod/components/sidebar-pusat.php";
         ?>
 
         <!-- Content Wrapper. Contains page content -->

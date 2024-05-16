@@ -19,3 +19,8 @@ if (empty($_SESSION['username'])) {
     header("Location: /sistem-persuratan-puskod/login.php");
     exit();
 }
+
+if (($_SESSION['role']) != '1') {
+    header("Location: /sistem-persuratan-puskod/403");
+    exit();
+}

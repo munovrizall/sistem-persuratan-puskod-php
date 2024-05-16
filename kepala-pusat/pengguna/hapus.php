@@ -1,6 +1,6 @@
 <?php
 $rootPath = $_SERVER['DOCUMENT_ROOT'];
-include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-tu.php";
+include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-pusat.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
     $userId = $_GET["id"];
