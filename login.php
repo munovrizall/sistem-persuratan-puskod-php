@@ -173,15 +173,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             success: function(response) {
                                 // Parse the response as JSON
                                 var responseData = JSON.parse(response);
+
                                 if (responseData.role === 1) {
                                     window.location.href = "/sistem-persuratan-puskod/kepala-pusat/homepage";
                                 } else if (responseData.role === 2) {
                                     window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage";
                                 } else if (responseData.jabatan == 'Kepala Bidang') {
                                     window.location.href = "/sistem-persuratan-puskod/kabid/homepage";
+                                } else if (responseData.jabatan == 'Staff') {
+                                    
+                                console.log(responseData.jabatan == 'Staff');
+                                    window.location.href = "/sistem-persuratan-puskod/staff/homepage";
                                 } else {
-                                    console.log(responseData.jabatan == 'Kepala Bidang');
-                                    // window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage";
+                                    console.log(responseData.jabatan == 'Staff');
                                 }
                             },
                             error: function(error) {

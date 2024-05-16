@@ -20,7 +20,7 @@ if (empty($_SESSION['username'])) {
     exit();
 }
 
-if (($_SESSION['jabatan']) != 'Kepala Bidang' || ($_SESSION['role']) == '1' || ($_SESSION['role']) == '2') {
+if (($_SESSION['jabatan']) != 'Staff' || ($_SESSION['role']) == '1' || ($_SESSION['role']) == '2') {
     header("Location: /sistem-persuratan-puskod/403");
     exit();
 }
