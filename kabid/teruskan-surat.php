@@ -8,11 +8,14 @@ $idPengguna = $_SESSION['id'];
 $queryPengguna = "SELECT pengguna.*, bidang.*
 FROM pengguna
 INNER JOIN bidang ON pengguna.id_bidang = bidang.id_bidang
-WHERE pengguna.id_bidang != '1' AND pengguna.id_bidang = ? AND pengguna.id_pengguna != ? 
+WHERE pengguna.id_bidang != '1' 
+  AND pengguna.id_pengguna != ? 
+  AND (pengguna.id_bidang = ? OR pengguna.id_bidang = '2')
 ORDER BY bidang.id_bidang ASC";
 
+
 $stmt = $conn->prepare($queryPengguna);
-$stmt->bind_param("ii", $idBidang, $idPengguna);
+$stmt->bind_param("ii", $idPengguna, $idBidang);
 $stmt->execute();
 $resultPengguna = $stmt->get_result();
 $stmt->close();
