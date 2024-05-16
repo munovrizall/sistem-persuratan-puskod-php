@@ -169,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     title: 'Akun berhasil dibuat!',
                     showCancelButton: false,
                     confirmButtonColor: '#855b2f',
-                    confirmButtonText: 'OK (enter)'
+                    confirmButtonText: 'OK'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.location.href = 'kelola.php';
@@ -192,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     text: 'Harap lengkapi semua formulir!',
                     showCancelButton: false,
                     confirmButtonColor: '#855b2f',
-                    confirmButtonText: 'OK (enter)'
+                    confirmButtonText: 'OK'
                 })
                 return false;
             }
@@ -214,7 +214,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         title: 'Pengguna berhasil ditambahkan!',
                         showCancelButton: false,
                         confirmButtonColor: '#855b2f',
-                        confirmButtonText: 'OK (enter)'
+                        confirmButtonText: 'OK'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             window.location.href = 'kelola.php';

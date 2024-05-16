@@ -149,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         text: 'Masukkan email yang benar!',
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'OK (enter)'
+                        confirmButtonText: 'OK'
                     });
                 } else {
                     if (!isPasswordValid) {
@@ -159,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             text: 'Masukkan password yang benar!',
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK (enter)'
+                            confirmButtonText: 'OK'
                         });
                     } else {
                         localStorage.setItem("username", inputEmail);
@@ -189,7 +189,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     text: 'Mohon lengkapi form login!',
                     showCancelButton: false,
                     confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK (enter)'
+                    confirmButtonText: 'OK'
                 })
             }
         }
