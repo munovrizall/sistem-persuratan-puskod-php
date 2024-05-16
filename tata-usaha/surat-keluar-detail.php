@@ -24,7 +24,6 @@ if (isset($_GET['id'])) {
     } else {
         echo "Surat tidak ditemukan.";
     }
-
 } else {
     echo "ID not provided.";
 }
@@ -58,7 +57,7 @@ if (isset($_GET['id'])) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Detail Surat</h1>
+                            <h1><?php echo $row["no_surat"] ?></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -97,7 +96,7 @@ if (isset($_GET['id'])) {
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer bg-white">
-                                    <?php 
+                                    <?php
 
                                     if (!empty($row["file_surat"])) {
                                         // Tampilkan ikon file jika ada data pada kolom file_surat

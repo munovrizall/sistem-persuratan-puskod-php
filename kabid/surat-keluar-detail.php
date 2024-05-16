@@ -58,7 +58,7 @@ if (isset($_GET['id'])) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Detail Surat</h1>
+                            <h1><?php echo $row["no_surat"] ?></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
