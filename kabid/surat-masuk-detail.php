@@ -66,8 +66,8 @@ if (isset($_GET['id'])) {
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="/sistem-persuratan-puskod/tata-usaha/homepage.php">Home</a></li>
-                                <li class="breadcrumb-item"><a href="/sistem-persuratan-puskod/tata-usaha/surat-masuk.php">Surat Masuk</a></li>
+                                <li class="breadcrumb-item"><a href="/sistem-persuratan-puskod/kabid/homepage.php">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/sistem-persuratan-puskod/kabid/surat-masuk.php">Surat Masuk</a></li>
                                 <li class="breadcrumb-item active">Detail Surat</li>
                             </ol>
                         </div>

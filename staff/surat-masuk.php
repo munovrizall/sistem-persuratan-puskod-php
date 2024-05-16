@@ -62,7 +62,7 @@ if ($stmt = $conn->prepare($query)) {
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="/sistem-persuratan-puskod/tata-usaha/homepage.php">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/sistem-persuratan-puskod/staff/homepage.php">Home</a></li>
                                 <li class="breadcrumb-item active">Surat Masuk</li>
                             </ol>
                         </div>

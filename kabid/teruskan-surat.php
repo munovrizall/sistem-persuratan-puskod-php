@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="/sistem-persuratan-puskod/tata-usaha/homepage.php">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/sistem-persuratan-puskod/kabid/homepage.php">Home</a></li>
                                 <li class="breadcrumb-item active">Teruskan Surat</li>
                             </ol>
                         </div>
