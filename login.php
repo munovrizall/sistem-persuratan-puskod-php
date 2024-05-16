@@ -148,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         title: 'Email tidak ditemukan',
                         text: 'Masukkan email yang benar!',
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
+                        confirmButtonColor: '#855b2f',
                         confirmButtonText: 'OK'
                     });
                 } else {
@@ -158,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             title: 'Password Salah',
                             text: 'Masukkan password yang benar!',
                             showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
+                            confirmButtonColor: '#855b2f',
                             confirmButtonText: 'OK'
                         });
                     } else {
@@ -193,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     title: 'Email Kosong',
                     text: 'Mohon lengkapi form login!',
                     showCancelButton: false,
-                    confirmButtonColor: '#3085d6',
+                    confirmButtonColor: '#855b2f',
                     confirmButtonText: 'OK'
                 })
             }
