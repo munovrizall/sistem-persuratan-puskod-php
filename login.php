@@ -177,8 +177,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     window.location.href = "/sistem-persuratan-puskod/kepala-pusat/homepage";
                                 } else if (responseData.role === 2) {
                                     window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage";
+                                } else if (responseData.jabatan == 'Kepala Bidang') {
+                                    window.location.href = "/sistem-persuratan-puskod/kabid/homepage";
                                 } else {
-                                    window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage";
+                                    console.log(responseData.jabatan == 'Kepala Bidang');
+                                    // window.location.href = "/sistem-persuratan-puskod/tata-usaha/homepage";
                                 }
                             },
                             error: function(error) {
