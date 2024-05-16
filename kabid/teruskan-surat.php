@@ -2,12 +2,20 @@
 $rootPath = $_SERVER['DOCUMENT_ROOT'];
 include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-kabid.php";
 
+$idBidang = $_SESSION['role']; 
+$idPengguna = $_SESSION['id']; 
+
 $queryPengguna = "SELECT pengguna.*, bidang.*
 FROM pengguna
 INNER JOIN bidang ON pengguna.id_bidang = bidang.id_bidang
-WHERE pengguna.id_bidang != '1'
+WHERE pengguna.id_bidang != '1' AND pengguna.id_bidang = ? AND pengguna.id_pengguna != ? 
 ORDER BY bidang.id_bidang ASC";
-$resultPengguna = $conn->query($queryPengguna);
+
+$stmt = $conn->prepare($queryPengguna);
+$stmt->bind_param("ii", $idBidang, $idPengguna);
+$stmt->execute();
+$resultPengguna = $stmt->get_result();
+$stmt->close();
 
 $idSurat = isset($_GET['id_surat']) ? $_GET['id_surat'] : '';
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
