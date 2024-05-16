@@ -5,6 +5,7 @@ include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-tu.php";
 $queryPengguna = "SELECT pengguna.*, bidang.*
 FROM pengguna
 INNER JOIN bidang ON pengguna.id_bidang = bidang.id_bidang
+WHERE pengguna.id_bidang != '2' 
 ORDER BY bidang.id_bidang ASC";
 $resultPengguna = $conn->query($queryPengguna);
 
@@ -134,7 +135,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <select class="select2" multiple="multiple" id="pilihPenerima" name="pilihPenerima[]" data-placeholder="Kepada: ">
                                                 <?php
                                                 while ($rowPengguna = $resultPengguna->fetch_assoc()) {
-                                                    echo '<option value="' . $rowPengguna['id_pengguna'] . '">' . $rowPengguna['nama_bidang'] . ' - ' . $rowPengguna['nama_pengguna'] . '</option>';
+                                                    $namaPengguna = $rowPengguna['nama_bidang'] . ' - ' . $rowPengguna['nama_pengguna'];
+                                                    if ($rowPengguna['jabatan'] == 'Kepala Bidang') {
+                                                        $namaPengguna .= ' (*)';
+                                                    }
+                                                    echo '<option value="' . $rowPengguna['id_pengguna'] . '">' . $namaPengguna . '</option>';
                                                 }
                                                 ?>
                                             </select>
