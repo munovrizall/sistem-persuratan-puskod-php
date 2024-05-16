@@ -5,6 +5,7 @@ include $rootPath . "/sistem-persuratan-puskod/config/connection-auth-pusat.php"
 $queryPengguna = "SELECT pengguna.*, bidang.*
 FROM pengguna
 INNER JOIN bidang ON pengguna.id_bidang = bidang.id_bidang
+WHERE pengguna.id_bidang = '2'
 ORDER BY bidang.id_bidang ASC";
 $resultPengguna = $conn->query($queryPengguna);
 
