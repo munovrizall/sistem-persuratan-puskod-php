@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 01, 2024 at 03:03 PM
+-- Generation Time: May 18, 2024 at 04:10 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -26,13 +26,33 @@ USE `puskod-db`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `divisi`
+-- Table structure for table `bidang`
 --
 
-CREATE TABLE `divisi` (
-  `id_divisi` int NOT NULL,
-  `nama_divisi` varchar(20) NOT NULL
+CREATE TABLE `bidang` (
+  `id_bidang` int NOT NULL,
+  `nama_bidang` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `bidang`
+--
+
+INSERT INTO `bidang` (`id_bidang`, `nama_bidang`) VALUES
+(1, 'Kepala Pusat'),
+(2, 'Tata Usaha'),
+(3, 'Perencanaan Administrasi Kodifikasi'),
+(4, 'Tata Kelola'),
+(5, 'Pengembangan Kodifikasi'),
+(6, 'Sistem Informasi Kodifikasi'),
+(7, 'Operasional Kodifikasi'),
+(8, 'Nomenlaktur dan Klasifikasi'),
+(9, 'Identifikasi dan Kodifikasi'),
+(10, 'Validasi Data Kodifikasi'),
+(11, 'Dukungan Teknis Kodifikasi'),
+(12, 'Kerjasama dan Pelatihan Kodifikasi'),
+(13, 'Publikasi Katalog Materiil'),
+(14, 'Fungsional Kataloger');
 
 -- --------------------------------------------------------
 
@@ -41,10 +61,11 @@ CREATE TABLE `divisi` (
 --
 
 CREATE TABLE `penerima_surat` (
-  `id_penerima` int NOT NULL,
+  `id_penerima_surat` int NOT NULL,
   `id_surat` int NOT NULL,
-  `id_pengguna` int NOT NULL,
-  `status_baca` varchar(20) NOT NULL
+  `id_pengirim` int NOT NULL,
+  `id_penerima` int NOT NULL,
+  `status_baca` varchar(20) NOT NULL DEFAULT 'BELUM'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -59,8 +80,15 @@ CREATE TABLE `pengguna` (
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `jabatan` varchar(20) NOT NULL,
-  `id_divisi` int NOT NULL
+  `id_bidang` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `pengguna`
+--
+
+INSERT INTO `pengguna` (`id_pengguna`, `nama_pengguna`, `email`, `password`, `jabatan`, `id_bidang`) VALUES
+(1, 'Abdullah Fadli', 'admin@email.com', 'admin', 'Kepala Bidang', 2);
 
 -- --------------------------------------------------------
 
@@ -70,11 +98,12 @@ CREATE TABLE `pengguna` (
 
 CREATE TABLE `surat` (
   `id_surat` int NOT NULL,
-  `id_pengirim` int NOT NULL,
-  `subjek_surat` varchar(50) DEFAULT NULL,
+  `no_surat` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `subjek_surat` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `isi_surat` varchar(256) DEFAULT NULL,
-  `file_surat` blob,
-  `tanggal_dibuat` datetime(6) NOT NULL
+  `file_surat` varchar(255) DEFAULT NULL,
+  `nama_file_surat` varchar(255) DEFAULT NULL,
+  `tanggal_dibuat` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -82,54 +111,60 @@ CREATE TABLE `surat` (
 --
 
 --
--- Indexes for table `divisi`
+-- Indexes for table `bidang`
 --
-ALTER TABLE `divisi`
-  ADD PRIMARY KEY (`id_divisi`);
+ALTER TABLE `bidang`
+  ADD PRIMARY KEY (`id_bidang`);
 
 --
 -- Indexes for table `penerima_surat`
 --
 ALTER TABLE `penerima_surat`
-  ADD PRIMARY KEY (`id_penerima`),
+  ADD PRIMARY KEY (`id_penerima_surat`),
+  ADD KEY `id_penerima_surat` (`id_penerima_surat`),
   ADD KEY `id_surat` (`id_surat`),
-  ADD KEY `id_pengguna` (`id_pengguna`);
+  ADD KEY `id_penerima` (`id_penerima`),
+  ADD KEY `id_penerima_2` (`id_penerima`),
+  ADD KEY `id_pengirim` (`id_pengirim`);
 
 --
 -- Indexes for table `pengguna`
 --
 ALTER TABLE `pengguna`
   ADD PRIMARY KEY (`id_pengguna`),
-  ADD KEY `id_divisi` (`id_divisi`);
+  ADD KEY `id_divisi` (`id_bidang`),
+  ADD KEY `id_pengguna` (`id_pengguna`),
+  ADD KEY `idx_pengguna_id_pengguna` (`id_pengguna`),
+  ADD KEY `id_pengguna_2` (`id_pengguna`),
+  ADD KEY `id_pengguna_3` (`id_pengguna`);
 
 --
 -- Indexes for table `surat`
 --
 ALTER TABLE `surat`
-  ADD PRIMARY KEY (`id_surat`),
-  ADD KEY `id_pengirim` (`id_pengirim`);
+  ADD PRIMARY KEY (`id_surat`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `divisi`
+-- AUTO_INCREMENT for table `bidang`
 --
-ALTER TABLE `divisi`
-  MODIFY `id_divisi` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `bidang`
+  MODIFY `id_bidang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `penerima_surat`
 --
 ALTER TABLE `penerima_surat`
-  MODIFY `id_penerima` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_penerima_surat` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id_pengguna` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pengguna` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `surat`
@@ -145,20 +180,16 @@ ALTER TABLE `surat`
 -- Constraints for table `penerima_surat`
 --
 ALTER TABLE `penerima_surat`
-  ADD CONSTRAINT `penerima_surat_ibfk_1` FOREIGN KEY (`id_surat`) REFERENCES `surat` (`id_surat`) ON DELETE CASCADE,
-  ADD CONSTRAINT `penerima_surat_ibfk_2` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_pengguna_penerima` FOREIGN KEY (`id_penerima`) REFERENCES `pengguna` (`id_pengguna`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_pengguna_pengirim` FOREIGN KEY (`id_pengirim`) REFERENCES `pengguna` (`id_pengguna`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `penerima_surat_ibfk_1` FOREIGN KEY (`id_surat`) REFERENCES `surat` (`id_surat`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `penerima_surat_ibfk_2` FOREIGN KEY (`id_penerima`) REFERENCES `pengguna` (`id_pengguna`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  ADD CONSTRAINT `pengguna_ibfk_1` FOREIGN KEY (`id_divisi`) REFERENCES `divisi` (`id_divisi`) ON DELETE CASCADE;
-
---
--- Constraints for table `surat`
---
-ALTER TABLE `surat`
-  ADD CONSTRAINT `surat_ibfk_1` FOREIGN KEY (`id_pengirim`) REFERENCES `pengguna` (`id_pengguna`) ON DELETE CASCADE;
+  ADD CONSTRAINT `pengguna_ibfk_1` FOREIGN KEY (`id_bidang`) REFERENCES `bidang` (`id_bidang`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
